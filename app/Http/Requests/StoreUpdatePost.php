@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUpdatePost extends FormRequest
 {
@@ -23,11 +24,31 @@ class StoreUpdatePost extends FormRequest
      */
     public function rules()
     {
+        $id = $this->segment(2); //pegando o id da url
         //caso algum dos campos não cumpra a regra. Ele irá retornar até que o mesmo seja preenchido corretamente.
-        return [
-            'title'=> ['required', 'min:3', 'max:160'],
-            'content' => ['nullable','min:5','max:10000'],
-            'image' => ['required', 'image']
+        $rules =  [
+            'title'=> [
+                'required', 
+                'min:3', 
+                'max:160', 
+                //"unique:posts,title,{$id},id" //ter um titulo unico na tabela post.
+                Rule::unique('posts')->ignore($id),
+                ], 
+                'content' => [
+                    'nullable',
+                    'min:5',
+                    'max:10000'
+                ],
+                'image' => [
+                    'required', 
+                    'image'
+                ]
         ];
+        
+        if ($this->method() == 'PUT'){ //quando eu querer editar somente o comentario, ele vai perder o require de image.
+            $rules['image'] = ['nullable', 'image']; 
+        }
+        
+        return $rules;
     }
 }

@@ -15,6 +15,6 @@
 @csrf
 
 <input type="file" name="image" id="image">
-<input type="text" name="title" id="title" placeholder="titulo" value="{{ old('title') }}">
-<textarea name="content" id="content" cols="30" rows="4" placeholder="Conteúdo">{{ old('content') }}</textarea>
+<input type="text" name="title" id="title" placeholder="titulo" value="{{ $post->title ?? null }}">
+<textarea name="content" id="content" cols="30" rows="4" placeholder="Conteúdo">{{ $post->title   ?? null }}</textarea>
 <button type="submit">Enviar</button>
