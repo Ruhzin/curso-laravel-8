@@ -1,33 +1,39 @@
-<a href="{{ route('posts.create') }}">Criar novo post</a>
-<hr>
+@extends('admin.layouts.app')
+@section('title', 'Listagens dos Posts')
 
-@if (session('success'))    
-    <div>
-        {{ session('success') }}
-    </div>
-@endif
+@section('content')
+    <a href="{{ route('posts.create') }}">Criar novo post</a>
+    <hr>
 
-
-<form action=" {{ route('posts.search') }}" method="post">
-        @csrf
-        <input type="text" name="search" placeholder="Filtrar">
-        <button type="submit">Filtrar</button>
-</form>
-
-<h1>Posts</h1>
+    @if (session('success'))    
+        <div>
+            {{ session('success') }}
+        </div>
+    @endif
 
 
-@foreach($posts as $post)
-    <p>
-        {{ $post-> title }}
-        [<a href="{{ route('posts.show', $post-> id) }}">Ver</a> ]
-        [<a href="{{ route('posts.edit', $post-> id) }}">Editar</a>]
-    </p>
-@endforeach
+    <form action=" {{ route('posts.search') }}" method="post">
+            @csrf
+            <input type="text" name="search" placeholder="Filtrar">
+            <button type="submit">Filtrar</button>
+    </form>
 
-<hr>
-@if(isset($filters))
-    {{ $posts->appends($filters)->links() }}
-@else
-    {{ $posts->links() }}
-@endif
+    <h1>Posts</h1>
+
+
+    @foreach($posts as $post)
+        <p>
+            <img src="{{ url("storage/$post->image") }}" alt="{{ $post->title }}" style="max-width:40px;">
+            {{ $post-> title }}
+            [<a href="{{ route('posts.show', $post-> id) }}">Ver</a> ]
+            [<a href="{{ route('posts.edit', $post-> id) }}">Editar</a>]
+        </p>
+    @endforeach
+
+    <hr>
+    @if(isset($filters))
+        {{ $posts->appends($filters)->links() }}
+    @else
+        {{ $posts->links() }}
+    @endif
+@endsection 

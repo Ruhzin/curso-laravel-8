@@ -25,8 +25,9 @@ class StoreUpdatePost extends FormRequest
     {
         //caso algum dos campos não cumpra a regra. Ele irá retornar até que o mesmo seja preenchido corretamente.
         return [
-            'title'=> 'required|min:3|max:160',
-            'content' => ['required','min:5','max:10000'],
+            'title'=> ['required', 'min:3', 'max:160'],
+            'content' => ['nullable','min:5','max:10000'],
+            'image' => ['required', 'image']
         ];
     }
 }
